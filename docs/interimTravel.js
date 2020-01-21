@@ -2,9 +2,9 @@ let width = 1000
 let height = 600
 let transitionTime = 0000
 let myProjection = d3
-.geoEqualEarth() // places Alaska and Hawaii closer to continental US
-.translate([455, 325])
-.scale(200)
+    .geoEqualEarth() // places Alaska and Hawaii closer to continental US
+    .translate([455, 325])
+    .scale(200)
 
 let facts = { population: {}, area: {}, density: {} }
 let mapData
