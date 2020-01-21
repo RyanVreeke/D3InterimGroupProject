@@ -56,6 +56,6 @@ function drawTrips(trips) {
         .attr('cy', d => myProjection([trips[1][1].Dec27.split(",")[1], trips[1][1].Dec27.split(",")[0]])[1])
         .attr('r', 3)
         .style('fill', 'red')
-        //console.log(trips[1][1].Dec27.split(",")[0])
-
+        console.log(trips[1][1].Jan12.split(",")[0])
+        console.log(trips[1][3].Jan12.split(",")[0])
 }
