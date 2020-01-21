@@ -6,30 +6,18 @@ let myProjection = d3
     .translate([455, 325])
     .scale(200)
 
-let facts = { population: {}, area: {}, density: {} }
 let mapData
-let factsData
 
 Promise.all([
     d3.json('world.json'),
+    d3.csv('interimTravel.csv')
 ]).then(function(d) {
     drawMap(d)
-    updateMap()
+    drawTrips(d)
 })
+
 function drawMap(data) {
     mapData = data[0]
-    //factsData = data[1]
-
-    // we create three objects that serve as "associative arrays" or "hashes"
-    // we will be able to use facts["population"]["Michigan"], for exmample,
-    // to get the population of a state. this is a handy trick for accessing
-    // information based on a key that is bound to svg elements
-
-    // for (i in factsData) {
-    //   facts.population[factsData[i].state] = +factsData[i].population
-    //   facts.area[factsData[i].state] = +factsData[i].area
-    //   facts.density[factsData[i].state] = +factsData[i].density
-    // }
 
     let pathGenerator = d3.geoPath().projection(myProjection)
 
@@ -56,16 +44,18 @@ function drawMap(data) {
         .style('fill','#2b7325')
         .style('stroke','black')
         .attr('d', pathGenerator)
+}
 
-    // identify Calvin University.  note use of projection! it takes
-    // two coordinates in and returns x and y values in SVG coordinates
+function drawTrips(trips) {
     d3.select('div.map svg')
         .selectAll('circle')
-        .data([{ lat: 42.9295124, lon: -85.5911216 }])
+        .data(trips)
         .enter()
         .append('circle')
-        .attr('cx', d => myProjection([d.lon, d.lat])[0])
-        .attr('cy', d => myProjection([d.lon, d.lat])[1])
+        .attr('cx', d => myProjection([trips[1][1].Dec27.split(",")[1], trips[1][1].Dec27.split(",")[0]])[0])
+        .attr('cy', d => myProjection([trips[1][1].Dec27.split(",")[1], trips[1][1].Dec27.split(",")[0]])[1])
         .attr('r', 3)
         .style('fill', 'red')
+        //console.log(trips[1][1].Dec27.split(",")[0])
+
 }
