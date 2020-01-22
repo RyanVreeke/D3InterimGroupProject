@@ -51,30 +51,18 @@ function drawMap(data) {
 function drawTrips(data) {
     tripsData = data[1]
     let s = d3.select('#canvas')
+        .append('g')
         .selectAll('circle')
         .data(tripsData)
         .enter()
-        .append('g')
-        
-        s.append('circle')
-        // .transition()
-        // .duration(1000)
-        .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
-        .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
-        .attr('r', 4)
-        .style('fill', 'red')
-        .on("mouseover", showInfo)
-        .on("mouseleave", hideInfo)  
-        
+
         s.append('path')
         .style('fill','transparent')
         .style('stroke','transparent')
-        // .transition()
-        // .duration(2000)
+        .transition()
+        .duration(2000)
         .style('stroke','darkred')
         .style('stroke-width','1.4')
-        .on("mouseover", showInfo)
-        .on("mouseleave", hideInfo)
         .attr("d", function(d, i) { //Found: https://stackoverflow.com/questions/17156283/d3-js-drawing-arcs-between-two-points-on-map-from-file?rq=1
             let dest = myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]]);
             let gr = myProjection([-85.5911216,42.9295085]);
@@ -83,6 +71,20 @@ function drawTrips(data) {
                 dr = Math.sqrt(dx * dx + dy * dy);
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
+        // s.on("mouseover", showInfo)
+        // .on("mouseleave", hideInfo)
+        
+        s.append('circle')
+        .transition()
+        .duration(1000)
+        .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
+        .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
+        .attr('r', 4)
+        .style('fill', 'red')
+        s.selectAll('circle')
+        .on("mouseover", showInfo)
+        .on("mouseleave", hideInfo)  
+    
 }
 
 function showInfo(d) {
