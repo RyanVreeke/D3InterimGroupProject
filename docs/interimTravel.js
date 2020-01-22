@@ -83,12 +83,15 @@ function drawTrips(data) {
         .style('fill', 'red')
         .style('stroke', 'black')
         s.selectAll('circle')
-        .on("mouseover", showInfoHover)
-        .on("mouseleave", hideInfo)
-        .on("click", showInfoClick)
+        .on("mouseover", onHover)
+        .on("mouseleave", offHover)
+        .on("click", onClick)
+        .call(d3.zoom().on("zoom", onClick))
 }
 
-function showInfoHover(d) {
+function onHover(d) {
+    d3.select(this)
+        .attr('r', 8);
     d3.select('#canvas')
         .data(tripsData)
         let mouseLoc = d3.mouse(this)
@@ -110,7 +113,7 @@ function showInfoHover(d) {
         .style('top', mouseLoc[1] + 35 + 'px')
 }
 
-function showInfoClick(d) {
+function onClick(d) {
     d3.select('#canvas')
         .data(tripsData)
         let info = 'The Destination Country is: ' +
@@ -126,9 +129,14 @@ function showInfoClick(d) {
         d3.selectAll('.info')
         .html(info)
         .style('visibility', 'visible')
+    
+    d3.select('#canvas')
+        .attr('transform', d3.event.transform)
 }
 
-function hideInfo(d) {
+function offHover(d) {
+    d3.select(this)
+        .attr('r', 4);
     d3.selectAll('.tooltip, .info')
         .style('visibility', 'hidden')
 }
