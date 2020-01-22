@@ -81,32 +81,51 @@ function drawTrips(data) {
         .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
         .attr('r', 4)
         .style('fill', 'red')
+        .style('stroke', 'black')
         s.selectAll('circle')
-        .on("mouseover", showInfo)
-        .on("mouseleave", hideInfo)  
-    
+        .on("mouseover", showInfoHover)
+        .on("mouseleave", hideInfo)
+        .on("click", showInfoClick)
 }
 
-function showInfo(d) {
-    d3.select('div.map svg')
-    .data(tripsData)
-    let mouseLoc = d3.mouse(this)
-    let info = 'The Destination Country is: ' +
-      d.country +
-      '. ' +
-      '<br />Mouse location is: (' +
-      mouseLoc[0] +
-      ', ' +
-      mouseLoc[1] +
-      ').'
+function showInfoHover(d) {
+    d3.select('#canvas')
+        .data(tripsData)
+        let mouseLoc = d3.mouse(this)
+        let info = 'The Destination Country is: ' +
+        d.country +
+        '. ' +
+        '<br />Destinatin cordinates are: (' +
+        d.dest.split(",")[0] +
+        ', ' +
+        d.dest.split(",")[1] +
+        ').'
 
-    // .html instead of .text() allows us to supply html markup here
-    d3.selectAll('.tooltip, .info')
-      .html(info)
-      .style('visibility', 'visible')
-      // left and top only affect .tooltip b/c position = absolute -- see css
-      .style('left', mouseLoc[0] + 'px')
-      .style('top', mouseLoc[1] + 35 + 'px')
+        // .html instead of .text() allows us to supply html markup here
+        d3.selectAll('.tooltip')
+        .html(info)
+        .style('visibility', 'visible')
+        // left and top only affect .tooltip b/c position = absolute -- see css
+        .style('left', mouseLoc[0] + 'px')
+        .style('top', mouseLoc[1] + 35 + 'px')
+}
+
+function showInfoClick(d) {
+    d3.select('#canvas')
+        .data(tripsData)
+        let info = 'The Destination Country is: ' +
+        d.country +
+        '. ' +
+        '<br />Destinatin cordinates are: (' +
+        d.dest.split(",")[0] +
+        ', ' +
+        d.dest.split(",")[1] +
+        ').'
+
+        // .html instead of .text() allows us to supply html markup here
+        d3.selectAll('.info')
+        .html(info)
+        .style('visibility', 'visible')
 }
 
 function hideInfo(d) {
