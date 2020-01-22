@@ -50,19 +50,39 @@ function drawMap(data) {
 
 function drawTrips(data) {
     tripsData = data[1]
-
-    d3.select('div.map svg')
+    let s = d3.select('#canvas')
         .selectAll('circle')
         .data(tripsData)
         .enter()
-        .append('circle')
+        .append('g')
+        
+        s.append('circle')
+        // .transition()
+        // .duration(1000)
         .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
         .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
-        .attr('r', 3)
+        .attr('r', 4)
         .style('fill', 'red')
-        .style('stroke', 'black')
+        .on("mouseover", showInfo)
+        .on("mouseleave", hideInfo)  
+        
+        s.append('path')
+        .style('fill','transparent')
+        .style('stroke','transparent')
+        // .transition()
+        // .duration(2000)
+        .style('stroke','darkred')
+        .style('stroke-width','1.4')
         .on("mouseover", showInfo)
         .on("mouseleave", hideInfo)
+        .attr("d", function(d, i) { //Found: https://stackoverflow.com/questions/17156283/d3-js-drawing-arcs-between-two-points-on-map-from-file?rq=1
+            let dest = myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]]);
+            let gr = myProjection([-85.5911216,42.9295085]);
+            var dx = dest[0] - gr[0],
+                dy = dest[1] - gr[1],
+                dr = Math.sqrt(dx * dx + dy * dy);
+            return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
+        });
 }
 
 function showInfo(d) {
