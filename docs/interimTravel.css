@@ -1,7 +1,7 @@
 .tooltip {
     position: absolute;
     border: solid;
-    border-width: 2px;
+    border-width: 1px;
     border-radius: 5px;
     padding: '5px';
     background-color: white;
@@ -9,6 +9,6 @@
   
   .info {
     position: static;
-    border: 2px solid skyblue;
+    border: 1px solid skyblue;
     border-radius: 8px;
   }
