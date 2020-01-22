@@ -46,16 +46,16 @@ function drawMap(data) {
         .attr('d', pathGenerator)
 }
 
-function drawTrips(trips) {
+function drawTrips(data) {
+    tripsData = data[1]
+
     d3.select('div.map svg')
         .selectAll('circle')
-        .data(trips)
+        .data(tripsData)
         .enter()
         .append('circle')
-        .attr('cx', d => myProjection([trips[1][1].Dec27.split(",")[1], trips[1][1].Dec27.split(",")[0]])[0])
-        .attr('cy', d => myProjection([trips[1][1].Dec27.split(",")[1], trips[1][1].Dec27.split(",")[0]])[1])
+        .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
+        .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
         .attr('r', 3)
         .style('fill', 'red')
-        console.log(trips[1][1].Jan12.split(",")[0])
-        console.log(trips[1][3].Jan12.split(",")[0])
 }
