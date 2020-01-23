@@ -20,18 +20,18 @@ Promise.all([
     drawTrips(d)
 })
 
+const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
+        .scaleExtent([1, 10])
+        .translateExtent([[0,0], [width, height]])
+        .extent([[width, height], [width, height]])
+        .on("zoom", onZoom);
+
 function drawMap(data) {
     mapData = data[0]
 
     let pathGenerator = d3.geoPath().projection(myProjection)
     
-    const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
-        .scaleExtent([1, 40])
-        .translateExtent([[0,0], [width, height]])
-        .extent([[0, 0], [width, height]])
-        .on("zoom", onZoom);
-    
-    var sel = d3.select('.map')
+    var sel = d3.select('div.map')
         .append('svg')
         .attr('id', 'canvas')
         .attr('width', width)
@@ -57,29 +57,20 @@ function drawMap(data) {
         .style('fill','#2b7325')
         .style('stroke','black')
         .attr('d', pathGenerator)
-
-    function onZoom() {
-        g.attr('transform', d3.event.transform)
-    }
+        //.call(zoom)
 }
 
 function drawTrips(data) {
     tripsData = data[1]
 
-    const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
-        .scaleExtent([1, 10])
-        .translateExtent([[0,0], [width, height]])
-        .extent([[width, height], [width, height]])
-        .on("zoom", onZoom);
-
-    g = d3.select('#main')
-        .call(zoom)
-
+    g = d3.select('svg#canvas')
+        //.call(zoom)
         .selectAll('circle')
         .data(tripsData)
         .enter()
 
-        g.append('path')
+        g.select('#main')
+        .append('path')
         .style('fill','transparent')
         .style('stroke','transparent')
         .transition()
@@ -113,9 +104,12 @@ function drawTrips(data) {
         .on("mouseleave", offHover)
         .on("click", onClick)
        
-    function onZoom() {
-        g.attr('transform', d3.event.transform)
-    }
+}
+
+function onZoom() {
+    d3.select('#main').attr('transform', d3.event.transform)
+    //d3.selectAll('svg#canvas path').attr('transform', d3.event.transform)
+    d3.selectAll('svg#canvas circle').attr('transform', d3.event.transform)
 }
 
 function onHover(d) {
