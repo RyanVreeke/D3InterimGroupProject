@@ -1,14 +1,17 @@
 .tooltip {
-    position: absolute;
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    padding: '5px';
-    background-color: white;
-  }
-  
-  .info {
-    position: static;
-    border: 1px solid skyblue;
-    border-radius: 8px;
-  }
+  position: absolute;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: '5px';
+  background-color: white;
+}
+
+.info {
+  position: static;
+  border: 1px solid skyblue;
+  border-radius: 8px;
+}
+.map {
+  margin: 0px 30px 0px 30px
+}
