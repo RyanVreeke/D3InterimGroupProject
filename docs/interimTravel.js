@@ -17,6 +17,12 @@ Promise.all([
     drawTrips(d)
 })
 
+const zoom = d3.zoom()
+    .scaleExtent([1, 40])
+    .translate([[0, 0], [width, height]])
+    .extent([[0, 0], [width, height]])
+    .on("zoom", onZoom)
+
 function drawMap(data) {
     mapData = data[0]
 
@@ -51,7 +57,6 @@ function drawMap(data) {
 function drawTrips(data) {
     tripsData = data[1]
     let s = d3.select('#canvas')
-        .append('g')
         .selectAll('circle')
         .data(tripsData)
         .enter()
@@ -82,14 +87,13 @@ function drawTrips(data) {
         .attr('r', 4)
         .style('fill', 'red')
         .style('stroke', 'black')
+
         s.selectAll('circle')
         .on("mouseover", onHover)
         .on("mouseleave", offHover)
         .on("click", onClick)
-        .call(d3.zoom()
-        .scaleExtent([.5, 20])
-        .extent([[0, 0], [width, height]])
-        .on("zoom", onZoom))
+       
+        let g = s.append('g')
 }
 
 function onHover(d) {
@@ -134,10 +138,9 @@ function onClick(d) {
         .style('visibility', 'visible')
 }
 
-function onZoom() {
-    d3.select('#canvas')
-        .attr('transform', d3.event.transform)
-}
+// function onZoom() {
+//     g.attr('transform', d3.event.transform)
+// }
 
 function offHover(d) {
     d3.select(this)
