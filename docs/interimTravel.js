@@ -31,8 +31,8 @@ function drawMap(data) {
         .attr('width', width)
         .attr('height', height)
         .append('rect')
-        .attr('height',600)
-        .attr('width',1000)
+        .attr('height', height)
+        .attr('width', width)
         .style('fill','transparent')
         .style('stroke','purple')
         .style('stroke-width','10')
@@ -86,7 +86,10 @@ function drawTrips(data) {
         .on("mouseover", onHover)
         .on("mouseleave", offHover)
         .on("click", onClick)
-        .call(d3.zoom().on("zoom", onClick))
+        .call(d3.zoom()
+        .scaleExtent([.5, 20])
+        .extent([[0, 0], [width, height]])
+        .on("zoom", onZoom))
 }
 
 function onHover(d) {
@@ -109,7 +112,7 @@ function onHover(d) {
         .html(info)
         .style('visibility', 'visible')
         // left and top only affect .tooltip b/c position = absolute -- see css
-        .style('left', mouseLoc[0] + 'px')
+        .style('left', mouseLoc[0] - 120 + 'px')
         .style('top', mouseLoc[1] + 35 + 'px')
 }
 
@@ -129,7 +132,9 @@ function onClick(d) {
         d3.selectAll('.info')
         .html(info)
         .style('visibility', 'visible')
-    
+}
+
+function onZoom() {
     d3.select('#canvas')
         .attr('transform', d3.event.transform)
 }
