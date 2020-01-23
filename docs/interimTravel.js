@@ -1,10 +1,10 @@
-let width = 1000
-let height = 600
+let width = d3.select(".map").node().getBoundingClientRect().width
+let height = width/2
 let transitionTime = 0000
 let myProjection = d3
     .geoEqualEarth()
-    .translate([455, 325])
-    .scale(200)
+    .translate([width/2.12, width/3.7])
+    .scale(width/5.2)
 
 let mapData
 let tripsData
@@ -17,41 +17,51 @@ Promise.all([
     drawTrips(d)
 })
 
-const zoom = d3.zoom()
-    .scaleExtent([1, 40])
-    .translate([[0, 0], [width, height]])
-    .extent([[0, 0], [width, height]])
-    .on("zoom", onZoom)
-
 function drawMap(data) {
     mapData = data[0]
-
     let pathGenerator = d3.geoPath().projection(myProjection)
 
-    d3.select('div.map')
-        .style('background-color','lightblue')
-        .style('width', width + 'px')
-        .style('height', height + 'px')
+    //const map = d3.select("#map");
+    
+    const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
+    .scaleExtent([1, 40])
+    .translateExtent([[0,0], [width, height]])
+    .extent([[width, height], [width, height]])
+    .on("zoom", onZoom);
+    
+    
+    var sel = d3.select('.map')
+        //.style('background-color','lightblue')
+        //.style('width', width + 'px')
+        //.style('height', height + 'px')
         .append('svg')
-        .attr('id', 'canvas')
+        .attr('id', 'canvas') //
         .attr('width', width)
         .attr('height', height)
-        .append('rect')
+        .style('background-color','skyblue')
+
+        .call(zoom)
+        const g = sel.append("g");
+        //Border
+        sel.append('rect')
         .attr('height', height)
         .attr('width', width)
         .style('fill','transparent')
         .style('stroke','purple')
         .style('stroke-width','10')
-    d3.select('div.map')
-        .select('svg')
-        .attr('class', 'map')
-        .selectAll('path')
+    // d3.select('div.map')
+    //     .select('svg')
+    //     .attr('class', 'map') //
+        g.selectAll('path')
         .data(mapData.features)
         .enter()
         .append('path')
         .style('fill','#2b7325')
         .style('stroke','black')
         .attr('d', pathGenerator)
+        function onZoom() {
+            g.attr('transform', d3.event.transform)
+        }
 }
 
 function drawTrips(data) {
@@ -93,7 +103,6 @@ function drawTrips(data) {
         .on("mouseleave", offHover)
         .on("click", onClick)
        
-        let g = s.append('g')
 }
 
 function onHover(d) {
