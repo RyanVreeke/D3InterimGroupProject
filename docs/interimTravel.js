@@ -5,6 +5,9 @@ let myProjection = d3
     .geoEqualEarth()
     .translate([width/2.12, width/3.7])
     .scale(width/5.2)
+    // console.log(width/2.12)
+    // console.log(width/3.7)
+    // console.log(width/5.2)
 
 let mapData
 let tripsData
@@ -19,29 +22,26 @@ Promise.all([
 
 function drawMap(data) {
     mapData = data[0]
-    let pathGenerator = d3.geoPath().projection(myProjection)
 
-    //const map = d3.select("#map");
+    let pathGenerator = d3.geoPath().projection(myProjection)
     
     const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
-    .scaleExtent([1, 40])
-    .translateExtent([[0,0], [width, height]])
-    .extent([[width, height], [width, height]])
-    .on("zoom", onZoom);
-    
+        .scaleExtent([1, 40])
+        .translateExtent([[0,0], [width, height]])
+        .extent([[0, 0], [width, height]])
+        .on("zoom", onZoom);
     
     var sel = d3.select('.map')
-        //.style('background-color','lightblue')
-        //.style('width', width + 'px')
-        //.style('height', height + 'px')
         .append('svg')
-        .attr('id', 'canvas') //
+        .attr('id', 'canvas')
         .attr('width', width)
         .attr('height', height)
         .style('background-color','skyblue')
 
         .call(zoom)
-        const g = sel.append("g");
+        const g = sel.append("g")
+            .attr('id', 'main')
+
         //Border
         sel.append('rect')
         .attr('height', height)
@@ -49,9 +49,7 @@ function drawMap(data) {
         .style('fill','transparent')
         .style('stroke','purple')
         .style('stroke-width','10')
-    // d3.select('div.map')
-    //     .select('svg')
-    //     .attr('class', 'map') //
+
         g.selectAll('path')
         .data(mapData.features)
         .enter()
@@ -59,19 +57,29 @@ function drawMap(data) {
         .style('fill','#2b7325')
         .style('stroke','black')
         .attr('d', pathGenerator)
-        function onZoom() {
-            g.attr('transform', d3.event.transform)
-        }
+
+    function onZoom() {
+        g.attr('transform', d3.event.transform)
+    }
 }
 
 function drawTrips(data) {
     tripsData = data[1]
-    let s = d3.select('#canvas')
+
+    const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
+        .scaleExtent([1, 10])
+        .translateExtent([[0,0], [width, height]])
+        .extent([[width, height], [width, height]])
+        .on("zoom", onZoom);
+
+    g = d3.select('#main')
+        .call(zoom)
+
         .selectAll('circle')
         .data(tripsData)
         .enter()
 
-        s.append('path')
+        g.append('path')
         .style('fill','transparent')
         .style('stroke','transparent')
         .transition()
@@ -86,10 +94,11 @@ function drawTrips(data) {
                 dr = Math.sqrt(dx * dx + dy * dy);
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
+
         // s.on("mouseover", showInfo)
         // .on("mouseleave", hideInfo)
         
-        s.append('circle')
+        g.append('circle')
         .transition()
         .duration(1000)
         .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
@@ -98,14 +107,19 @@ function drawTrips(data) {
         .style('fill', 'red')
         .style('stroke', 'black')
 
-        s.selectAll('circle')
+        g.selectAll('circle')
         .on("mouseover", onHover)
+        .on("mousemove", onHover)
         .on("mouseleave", offHover)
         .on("click", onClick)
        
+    function onZoom() {
+        g.attr('transform', d3.event.transform)
+    }
 }
 
 function onHover(d) {
+    console.log("hovered")
     d3.select(this)
         .attr('r', 8);
     d3.select('#canvas')
@@ -146,10 +160,6 @@ function onClick(d) {
         .html(info)
         .style('visibility', 'visible')
 }
-
-// function onZoom() {
-//     g.attr('transform', d3.event.transform)
-// }
 
 function offHover(d) {
     d3.select(this)
