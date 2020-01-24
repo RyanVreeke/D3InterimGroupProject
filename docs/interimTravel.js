@@ -23,7 +23,7 @@ Promise.all([
 const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
         .scaleExtent([1, 10])
         .translateExtent([[0,0], [width, height]])
-        .extent([[width, height], [width, height]])
+        .extent([[0, 0], [width, height]])
         .on("zoom", onZoom);
 
 function drawMap(data) {
