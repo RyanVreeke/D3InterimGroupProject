@@ -43,33 +43,31 @@ function drawMap(data) {
             .attr('id', 'main')
 
         //Border
-        sel.append('rect')
+    sel.append('rect')
         .attr('height', height)
         .attr('width', width)
         .style('fill','transparent')
         .style('stroke','#350457')
         .style('stroke-width','10')
 
-        g.selectAll('path')
+    g.selectAll('path')
         .data(mapData.features)
         .enter()
         .append('path')
-        .style('fill','#2b7325')
+        .style('fill','#2b7325') // color green
         .style('stroke','black')
         .attr('d', pathGenerator)
-        //.call(zoom)
 }
 
 function drawTrips(data) {
     tripsData = data[1]
 
     g = d3.select('svg#canvas')
-        //.call(zoom)
         .selectAll('circle')
         .data(tripsData)
         .enter()
 
-        g.select('#main')
+    g.select('#main')
         .append('path')
         .style('fill','transparent')
         .style('stroke','transparent')
@@ -86,10 +84,10 @@ function drawTrips(data) {
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
 
-        // s.on("mouseover", showInfo)
-        // .on("mouseleave", hideInfo)
-        
-        g.append('circle')
+    // s.on("mouseover", showInfo)
+    // .on("mouseleave", hideInfo)
+    
+    g.append('circle')
         .transition()
         .duration(1000)
         .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
@@ -98,7 +96,7 @@ function drawTrips(data) {
         .style('fill', 'red')
         .style('stroke', 'black')
 
-        g.selectAll('circle')
+    g.selectAll('circle')
         .on("mouseover", onHover)
         .on("mousemove", onHover)
         .on("mouseleave", offHover)
@@ -113,7 +111,6 @@ function onZoom() {
 }
 
 function onHover(d) {
-    console.log("hovered")
     d3.select(this)
         .attr('r', 8);
     d3.select('#canvas')
@@ -128,13 +125,17 @@ function onHover(d) {
         d.dest.split(",")[1] +
         ').'
 
-        // .html instead of .text() allows us to supply html markup here
-        d3.selectAll('.tooltip')
+    // .html instead of .text() allows us to supply html markup here
+    d3.selectAll('.tooltip')
         .html(info)
         .style('visibility', 'visible')
         // left and top only affect .tooltip b/c position = absolute -- see css
-        .style('left', mouseLoc[0] - 120 + 'px')
-        .style('top', mouseLoc[1] + 35 + 'px')
+        .style('left', mouseLoc[0] + 'px')
+        .style('top', mouseLoc[1] + 'px')
+
+    //console.log(mouseLoc)
+    console.log(mouseLoc[0])
+    console.log(mouseLoc[1])
 }
 
 function onClick(d) {
@@ -150,7 +151,7 @@ function onClick(d) {
         ').'
 
         // .html instead of .text() allows us to supply html markup here
-        d3.selectAll('.info')
+    d3.selectAll('.info')
         .html(info)
         .style('visibility', 'visible')
 }
