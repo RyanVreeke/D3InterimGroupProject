@@ -47,7 +47,7 @@ function drawMap(data) {
         .attr('height', height)
         .attr('width', width)
         .style('fill','transparent')
-        .style('stroke','purple')
+        .style('stroke','#350457')
         .style('stroke-width','10')
 
         g.selectAll('path')
