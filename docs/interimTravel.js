@@ -18,6 +18,7 @@ Promise.all([
 ]).then(function(d) {
     drawMap(d)
     drawTrips(d)
+    drawTravel(d)
 })
 
 const zoom = d3.zoom() //Info found: https://bl.ocks.org/piwodlaiwo/c6e2478581d3932f99da781e9dade306
@@ -43,12 +44,14 @@ function drawMap(data) {
             .attr('id', 'main')
 
         //Border
-    sel.append('rect')
-        .attr('height', height)
-        .attr('width', width)
-        .style('fill','transparent')
-        .style('stroke','#350457')
-        .style('stroke-width','10')
+    // sel.append('rect')
+    //     .attr('height', height)
+    //     .attr('width', width)
+    //     .attr('position', 'absolute')
+    //     .attr('id', 'border')
+    //     .style('fill','transparent')
+    //     .style('stroke','#350457')
+    //     .style('stroke-width','10')
 
     g.selectAll('path')
         .data(mapData.features)
@@ -104,19 +107,51 @@ function drawTrips(data) {
        
 }
 
+function drawTravel(data){
+    d3.select('button#play-button')
+        .on('click',function(){
+    g = d3.select('svg#canvas')
+    .selectAll('rect')
+    .data(tripsData)
+    .enter()
+    .append('rect')
+    .attr('class', 'travel')
+    //.selectAll('.travel')
+    //.attr('id', (d, i) => tripsData[i].country)
+    .attr('x', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
+    .attr('y', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
+    //.attr('r', 4)
+    .attr('width', 5)
+    .attr('height', 5)
+    .style('fill', 'pink')
+   
+    for(let date = 1; date < 35; date++){
+    g = g.transition()
+    .duration(1000)
+    .attr('x', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
+    .attr('y', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
+    }
+    })
+
+    //.text(moving ? 'Pause' : 'Play')
+}
+
 function onZoom() {
     d3.select('#main').attr('transform', d3.event.transform)
     //d3.selectAll('svg#canvas path').attr('transform', d3.event.transform)
     d3.selectAll('svg#canvas circle').attr('transform', d3.event.transform)
+    d3.selectAll('svg#canvas .travel').attr('transform', d3.event.transform)
 }
 
 function onHover(d) {
     d3.select(this)
-        .attr('r', 8);
+        .attr('r', 8)
+        .attr('width', 10)
+        .attr('height', 10)
     d3.select('#canvas')
         .data(tripsData)
         let mouseLoc = d3.mouse(this)
-        let info = 'The Destination Country is: ' +
+        let info = 'Destination is: ' +
         d.country +
         '. ' +
         '<br />Destinatin cordinates are: (' +
@@ -141,10 +176,10 @@ function onHover(d) {
 function onClick(d) {
     d3.select('#canvas')
         .data(tripsData)
-        let info = 'The Destination Country is: ' +
+        let info = 'Destination is: ' +
         d.country +
         '. ' +
-        '<br />Destinatin cordinates are: (' +
+        '<br />Destination cordinates are: (' +
         d.dest.split(",")[0] +
         ', ' +
         d.dest.split(",")[1] +
@@ -158,7 +193,7 @@ function onClick(d) {
 
 function offHover(d) {
     d3.select(this)
-        .attr('r', 4);
+        .attr('r', 4)
     d3.selectAll('.tooltip, .info')
         .style('visibility', 'hidden')
 }
