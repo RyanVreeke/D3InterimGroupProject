@@ -93,7 +93,7 @@ function drawTrips(data) {
         .on("mouseover", onHover)
         .on("mousemove", onHover)
         .on("mouseleave", offHover)
-        .on("click", onClick)
+        .on("click", onClick)     
 }
 
 function drawTravel(data){
@@ -110,6 +110,8 @@ function drawTravel(data){
     .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
     .attr('r', 3)
     .style('fill', 'pink')
+    
+    let t = d3.select('.textDate')
     .style('stroke','black')
    
     for(let date = 1; date < 35; date++){
@@ -117,10 +119,16 @@ function drawTravel(data){
     .duration(1000)
     .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
     .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
-    }
+    
+    t = t
+    .transition()
+    .duration(1000)
+    .text(function(d) {return 'Date of travel being viewed: ' + tripsData.columns[date]})
+
+
+}
     })
 
-    //.text(moving ? 'Pause' : 'Play')
 }
 
 function onZoom() {
