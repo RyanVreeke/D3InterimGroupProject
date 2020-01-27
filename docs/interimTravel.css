@@ -12,6 +12,7 @@
   border-radius: 8px;
   width: 500px;
   height: 47px;
+  background-color: white;
 }
 body {
   background-color: #839D9A;
@@ -79,6 +80,7 @@ ul.tripList {
 div.footer {
   background-color: #bf6b2d;
   height: 50px;
+  width: 1256px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   opacity: .8;

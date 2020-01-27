@@ -44,16 +44,6 @@ function drawMap(data) {
         const g = sel.append("g")
             .attr('id', 'main')
 
-        //Border
-    // sel.append('rect')
-    //     .attr('height', height)
-    //     .attr('width', width)
-    //     .attr('position', 'absolute')
-    //     .attr('id', 'border')
-    //     .style('fill','transparent')
-    //     .style('stroke','#350457')
-    //     .style('stroke-width','10')
-
     g.selectAll('path')
         .data(mapData.features)
         .enter()
@@ -87,9 +77,6 @@ function drawTrips(data) {
                 dr = Math.sqrt(dx * dx + dy * dy);
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
-
-    // s.on("mouseover", showInfo)
-    // .on("mouseleave", hideInfo)
     
     g.append('circle')
         .transition()
@@ -105,32 +92,29 @@ function drawTrips(data) {
         .on("mousemove", onHover)
         .on("mouseleave", offHover)
         .on("click", onClick)
-       
 }
 
 function drawTravel(data){
     d3.select('button#play-button')
         .on('click',function() {
     g = d3.select('svg#canvas')
-    .selectAll('rect')
+    .selectAll('circle.travel')
     .data(tripsData)
     .enter()
-    .append('rect')
+    .append('circle')
     .attr('class', 'travel')
-    //.selectAll('.travel')
     //.attr('id', (d, i) => tripsData[i].country)
-    .attr('x', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
-    .attr('y', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
-    //.attr('r', 4)
-    .attr('width', 5)
-    .attr('height', 5)
+    .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
+    .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
+    .attr('r', 3)
     .style('fill', 'pink')
+    .style('stroke','black')
    
     for(let date = 1; date < 35; date++){
     g = g.transition()
     .duration(1000)
-    .attr('x', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
-    .attr('y', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
+    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
+    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
     }
     })
 
@@ -170,8 +154,8 @@ function onHover(d) {
         .style('top', mouseLoc[1] + 'px')
 
     //console.log(mouseLoc)
-    console.log(mouseLoc[0])
-    console.log(mouseLoc[1])
+    // console.log(mouseLoc[0])
+    // console.log(mouseLoc[1])
 }
 
 function onClick(d) {
