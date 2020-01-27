@@ -53,6 +53,7 @@ div.menu p {
   background-color: #837b79;
 }
 div.header {
+  height: 60px;
   background-color: #bf6b2d;
   border-top-right-radius: 10px;
   border-left-style: solid;

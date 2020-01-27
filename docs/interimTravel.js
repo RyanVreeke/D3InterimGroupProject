@@ -171,6 +171,7 @@ function onCircleHover(d) {
     // console.log(mouseLoc[1])
 }
 
+let clicked = false;
 function onCircleClick(d) {
     d3.select('#canvas')
         .data(tripsData)
@@ -182,21 +183,26 @@ function onCircleClick(d) {
         ', ' +
         d.dest.split(",")[1] +
         ').'
+    if (!clicked) {
+        clicked = true;
 
         // .html instead of .text() allows us to supply html markup here
-    d3.selectAll('.travelInfo')
-        .append('text')
-        .attr('id', 'infoText')
-        .attr('x', 0)
-        .attr('y', 0)
-        .html(info)
+        d3.selectAll('.travelInfo')
+            .append('text')
+            .attr('id', 'infoText')
+            .attr('x', 0)
+            .attr('y', 0)
+            .html(info)
+        }
+    
 }
 
 function offCircleHover(d) {
     d3.select(this)
         .attr('r', 4)
-    d3.select('#infoText')
+    d3.selectAll('#infoText')
         .remove()
+        clicked = false;
     d3.selectAll('.tooltip')
         .style('visibility', 'hidden')
 }
