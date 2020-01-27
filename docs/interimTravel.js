@@ -90,45 +90,42 @@ function drawTrips(data) {
         .style('stroke', 'black')
 
     g.selectAll('circle')
-        .on("mouseover", onHover)
-        .on("mousemove", onHover)
-        .on("mouseleave", offHover)
-        .on("click", onClick)     
+        .on("mouseover", onCircleHover)
+        .on("mousemove", onCircleHover)
+        .on("mouseleave", offCircleHover)
+        .on("click", onCircleClick)     
 }
 
 function drawTravel(data){
     d3.select('button#play-button')
         .on('click',function() {
-    g = d3.select('svg#canvas')
-    .selectAll('circle.travel')
-    .data(tripsData)
-    .enter()
-    .append('circle')
-    .attr('class', 'travel')
-    //.attr('id', (d, i) => tripsData[i].country)
-    .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
-    .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
-    .attr('r', 3)
-    .style('fill', 'pink')
-    
-    let t = d3.select('.textDate')
-    .style('stroke','black')
-   
-    for(let date = 1; date < 35; date++){
-    g = g.transition()
-    .duration(1000)
-    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
-    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
-    
-    t = t
-    .transition()
-    .duration(1000)
-    .text(function(d) {return 'Date of travel being viewed: ' + tripsData.columns[date]})
-
-
-}
-    })
-
+            g = d3.select('svg#canvas')
+                .selectAll('circle.travel')
+                .data(tripsData)
+                .enter()
+                .append('circle')
+                .attr('class', 'travel')
+                //.attr('id', (d, i) => tripsData[i].country)
+                .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
+                .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
+                .attr('r', 3)
+                .style('fill', 'white')
+                .style('stroke','black')
+            
+            let t = d3.select('text.textDate')
+        
+            for(let date = 1; date < 35; date++){
+                g = g.transition()
+                    .duration(1000)
+                    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
+                    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
+                
+                t = t
+                    .transition()
+                    .duration(1000)
+                    .text(function(d) {return 'Date of travel being viewed: ' + tripsData.columns[date]})
+            }
+        })
 }
 
 function onZoom() {
@@ -138,7 +135,7 @@ function onZoom() {
     d3.selectAll('svg#canvas .travel').attr('transform', d3.event.transform)
 }
 
-function onHover(d) {
+function onCircleHover(d) {
     d3.select(this)
         .attr('r', 8)
         .attr('width', 10)
@@ -168,7 +165,7 @@ function onHover(d) {
     // console.log(mouseLoc[1])
 }
 
-function onClick(d) {
+function onCircleClick(d) {
     d3.select('#canvas')
         .data(tripsData)
         let info = 'Destination is: ' +
@@ -189,7 +186,7 @@ function onClick(d) {
         .html(info)
 }
 
-function offHover(d) {
+function offCircleHover(d) {
     d3.select(this)
         .attr('r', 4)
     d3.select('#infoText')
@@ -197,6 +194,7 @@ function offHover(d) {
     d3.selectAll('.tooltip')
         .style('visibility', 'hidden')
 }
+
 function onListHover(trip) {
     d3.selectAll('g#main path.flight')
         .style('stroke','darkred')
@@ -205,4 +203,8 @@ function onListHover(trip) {
     d3.select('g#main')
         .select(pathID)
         .style('stroke','blue')
+}
+
+function onListClick(trip) {
+    console.log('hi')
 }

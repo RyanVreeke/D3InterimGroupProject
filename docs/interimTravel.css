@@ -8,8 +8,10 @@
 }
 .info {
   position: static;
-  border: 1px solid black;
-  border-radius: 8px;
+  border: 2px solid black;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   width: 500px;
   height: 47px;
   background-color: white;
@@ -72,6 +74,9 @@ div.content {
 }
 #play-button {
   position: static;
+}
+text.textDate {
+  color: white;
 }
 ul.tripList {
   list-style-type: none;
