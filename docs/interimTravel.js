@@ -37,21 +37,12 @@ function drawMap(data) {
         .attr('id', 'canvas')
         .attr('width', width)
         .attr('height', height)
+        .style('display', 'block')
         .style('background-color','skyblue')
 
         .call(zoom)
         const g = sel.append("g")
             .attr('id', 'main')
-
-        //Border
-    // sel.append('rect')
-    //     .attr('height', height)
-    //     .attr('width', width)
-    //     .attr('position', 'absolute')
-    //     .attr('id', 'border')
-    //     .style('fill','transparent')
-    //     .style('stroke','#350457')
-    //     .style('stroke-width','10')
 
     g.selectAll('path')
         .data(mapData.features)
@@ -72,6 +63,8 @@ function drawTrips(data) {
 
     g.select('#main')
         .append('path')
+        .attr('id', (d, i) => tripsData[i].country.split(' ').join(''))
+        .attr('class','flight')
         .style('fill','transparent')
         .style('stroke','transparent')
         .transition()
@@ -86,9 +79,6 @@ function drawTrips(data) {
                 dr = Math.sqrt(dx * dx + dy * dy);
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
-
-    // s.on("mouseover", showInfo)
-    // .on("mouseleave", hideInfo)
     
     g.append('circle')
         .transition()
@@ -108,29 +98,27 @@ function drawTrips(data) {
 
 function drawTravel(data){
     d3.select('button#play-button')
-        .on('click',function(){
+        .on('click',function() {
     g = d3.select('svg#canvas')
-    .selectAll('rect')
+    .selectAll('circle.travel')
     .data(tripsData)
     .enter()
-    .append('rect')
+    .append('circle')
     .attr('class', 'travel')
-    //.selectAll('.travel')
     //.attr('id', (d, i) => tripsData[i].country)
-    .attr('x', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
-    .attr('y', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
-    //.attr('r', 4)
-    .attr('width', 5)
-    .attr('height', 5)
+    .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
+    .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
+    .attr('r', 3)
     .style('fill', 'pink')
     
     let t = d3.select('.textDate')
+    .style('stroke','black')
    
     for(let date = 1; date < 35; date++){
     g = g.transition()
     .duration(1000)
-    .attr('x', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
-    .attr('y', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
+    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
+    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
     
     t = t
     .transition()
@@ -138,8 +126,7 @@ function drawTravel(data){
     .text(function(d) {return 'Date of travel being viewed: ' + tripsData.columns[date]})
 
 
-
-    }
+}
     })
 
 }
@@ -177,8 +164,8 @@ function onHover(d) {
         .style('top', mouseLoc[1] + 'px')
 
     //console.log(mouseLoc)
-    console.log(mouseLoc[0])
-    console.log(mouseLoc[1])
+    // console.log(mouseLoc[0])
+    // console.log(mouseLoc[1])
 }
 
 function onClick(d) {
@@ -187,21 +174,35 @@ function onClick(d) {
         let info = 'Destination is: ' +
         d.country +
         '. ' +
-        '<br />Destination cordinates are: (' +
+        '<br />Destinatin cordinates are: (' +
         d.dest.split(",")[0] +
         ', ' +
         d.dest.split(",")[1] +
         ').'
 
         // .html instead of .text() allows us to supply html markup here
-    d3.selectAll('.info')
+    d3.selectAll('.travelInfo')
+        .append('text')
+        .attr('id', 'infoText')
+        .attr('x', 0)
+        .attr('y', 0)
         .html(info)
-        .style('visibility', 'visible')
 }
 
 function offHover(d) {
     d3.select(this)
         .attr('r', 4)
-    d3.selectAll('.tooltip, .info')
+    d3.select('#infoText')
+        .remove()
+    d3.selectAll('.tooltip')
         .style('visibility', 'hidden')
+}
+function onListHover(trip) {
+    d3.selectAll('g#main path.flight')
+        .style('stroke','darkred')
+
+    let pathID = 'path#' + trip
+    d3.select('g#main')
+        .select(pathID)
+        .style('stroke','blue')
 }
