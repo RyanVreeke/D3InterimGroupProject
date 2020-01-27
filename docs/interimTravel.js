@@ -63,6 +63,8 @@ function drawTrips(data) {
 
     g.select('#main')
         .append('path')
+        .attr('id', (d, i) => tripsData[i].country.split(' ').join(''))
+        .attr('class','flight')
         .style('fill','transparent')
         .style('stroke','transparent')
         .transition()
@@ -186,4 +188,13 @@ function offHover(d) {
         .remove()
     d3.selectAll('.tooltip')
         .style('visibility', 'hidden')
+}
+function onListHover(trip) {
+    d3.selectAll('g#main path.flight')
+        .style('stroke','darkred')
+
+    let pathID = 'path#' + trip
+    d3.select('g#main')
+        .select(pathID)
+        .style('stroke','blue')
 }
