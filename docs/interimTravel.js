@@ -37,6 +37,7 @@ function drawMap(data) {
         .attr('id', 'canvas')
         .attr('width', width)
         .attr('height', height)
+        .style('display', 'block')
         .style('background-color','skyblue')
 
         .call(zoom)
@@ -109,7 +110,7 @@ function drawTrips(data) {
 
 function drawTravel(data){
     d3.select('button#play-button')
-        .on('click',function(){
+        .on('click',function() {
     g = d3.select('svg#canvas')
     .selectAll('rect')
     .data(tripsData)
@@ -179,21 +180,26 @@ function onClick(d) {
         let info = 'Destination is: ' +
         d.country +
         '. ' +
-        '<br />Destination cordinates are: (' +
+        '<br />Destinatin cordinates are: (' +
         d.dest.split(",")[0] +
         ', ' +
         d.dest.split(",")[1] +
         ').'
 
         // .html instead of .text() allows us to supply html markup here
-    d3.selectAll('.info')
+    d3.selectAll('.travelInfo')
+        .append('text')
+        .attr('id', 'infoText')
+        .attr('x', 0)
+        .attr('y', 0)
         .html(info)
-        .style('visibility', 'visible')
 }
 
 function offHover(d) {
     d3.select(this)
         .attr('r', 4)
-    d3.selectAll('.tooltip, .info')
+    d3.select('#infoText')
+        .remove()
+    d3.selectAll('.tooltip')
         .style('visibility', 'hidden')
 }
