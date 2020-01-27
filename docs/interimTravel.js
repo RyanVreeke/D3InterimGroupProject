@@ -99,39 +99,39 @@ function drawTrips(data) {
 function drawTravel(data){
     d3.select('button#play-button')
         .on('click',function() {
-    g = d3.select('svg#canvas')
-    .selectAll('circle.travel')
-    .data(tripsData)
-    .enter()
-    .append('circle')
-    .attr('class', 'travel')
-    //.attr('id', (d, i) => tripsData[i].country)
-    .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
-    .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
-    .attr('r', 3)
-    .style('fill', 'white')
-    
-    let t = d3.select('.textDate')
-   
-    for(let date = 1; date < 35; date++){
-    g = g.transition()
-    .duration(1000)
-    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
-    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
-    
-    var str = tripsData.columns[date]
-    var matches = str.match(/(\d+)/)
-    var month = tripsData.columns[date].split("", 3)
-    
-    t = t
-    .transition()
-    .duration(1000)
-    .text(function(d) {return 'Date of travel being viewed: ' + month[0].toUpperCase() + month[1] + month[2] + ' ' + matches[0]})
+            g = d3.select('svg#canvas')
+                .selectAll('circle.travel')
+                .data(tripsData)
+                .enter()
+                .append('circle')
+                .attr('class', 'travel')
+                //.attr('id', (d, i) => tripsData[i].country)
+                .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
+                .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
+                .attr('r', 3)
+                .style('fill', 'white')
+                .style('stroke', 'black')
+            
+            let t = d3.select('.textDate')
+        
+            for(let date = 1; date < 35; date++){
+                g = g.transition()
+                    .duration(1000)
+                    .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
+                    .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
+            
+                var str = tripsData.columns[date]
+                var matches = str.match(/(\d+)/)
+                var month = tripsData.columns[date].split("", 3)
+            
+                t = t
+                    .transition()
+                    .duration(1000)
+                    .text(function(d) {return 'Date of travel being viewed: ' + month[0].toUpperCase() + month[1] + month[2] + ' ' + matches[0]})
 
 
-}
-    })
-
+            }
+        })
 }
 
 function onZoom() {
