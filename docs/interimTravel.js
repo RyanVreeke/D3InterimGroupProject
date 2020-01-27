@@ -56,19 +56,19 @@ function drawMap(data) {
 function drawTrips(data) {
     tripsData = data[1]
 
-    g = d3.select('svg#canvas')
+    sel = d3.select('svg#canvas')
         .selectAll('circle')
         .data(tripsData)
         .enter()
 
-    g.select('#main')
+    sel.select('#main')
         .append('path')
         .attr('id', (d, i) => tripsData[i].country.split(' ').join(''))
         .attr('class','flight')
         .style('fill','transparent')
         .style('stroke','transparent')
         .transition()
-        .duration(2000)
+        .duration(1000)
         .style('stroke','darkred')
         .style('stroke-width','1.4')
         .attr("d", function(d, i) { //Found: https://stackoverflow.com/questions/17156283/d3-js-drawing-arcs-between-two-points-on-map-from-file?rq=1
@@ -80,16 +80,18 @@ function drawTrips(data) {
             return "M" + gr[0] + "," + gr[1] + "A" + dr + "," + dr + " 0 0,1 " + dest[0] + "," + dest[1];
         });
     
-    g.append('circle')
+    sel.append('circle')
         .transition()
         .duration(1000)
+        .attr('id', (d, i) => tripsData[i].country.split(' ').join(''))
+        .attr('class', 'destination')
         .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
         .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
         .attr('r', 4)
         .style('fill', 'red')
         .style('stroke', 'black')
 
-    g.selectAll('circle')
+    sel.selectAll('circle')
         .on("mouseover", onCircleHover)
         .on("mousemove", onCircleHover)
         .on("mouseleave", offCircleHover)
@@ -144,8 +146,6 @@ function onZoom() {
 function onCircleHover(d) {
     d3.select(this)
         .attr('r', 8)
-        .attr('width', 10)
-        .attr('height', 10)
     d3.select('#canvas')
         .data(tripsData)
         let mouseLoc = d3.mouse(this)
@@ -194,7 +194,6 @@ function onCircleClick(d) {
             .attr('y', 0)
             .html(info)
         }
-    
 }
 
 function offCircleHover(d) {
@@ -208,13 +207,23 @@ function offCircleHover(d) {
 }
 
 function onListHover(trip) {
+    d3.selectAll('#canvas circle.destination')
+        .attr('r', 4)
+        .style('fill', 'red')
+    
+    d3.select('svg#canvas')
+        .selectAll('circle#' + trip)
+        .attr('r', 8)
+        .style('fill', 'blue')
+
     d3.selectAll('g#main path.flight')
         .style('stroke','darkred')
+        .style('stroke-width','1.4')
 
-    let pathID = 'path#' + trip
     d3.select('g#main')
-        .select(pathID)
-        .style('stroke','blue')
+        .selectAll('path#' + trip)
+        .style('stroke', 'blue')
+        .style('stroke-width', '3')
 }
 
 function onListClick(trip) {
