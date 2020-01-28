@@ -119,7 +119,7 @@ function drawTravel(data){
                 .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
                 .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
                 .attr('r', 3)
-                .style('fill', 'white')
+                .style('fill', 'pink')
                 .style('stroke', 'black')
             
             let t = d3.select('.textDate')

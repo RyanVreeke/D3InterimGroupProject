@@ -15,14 +15,12 @@
 .info {
   position: static;
   border: 2px solid black;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  width: 450px;
+  width: 1130px;
   height: 97px;
   padding-left: 3px;
-  background-color: white;
   border-left-style: solid;
   border-left-color: black;
+  background: linear-gradient(90deg, rgba(255,255,255,1) 8%, rgba(191,107,45,1) 100%);
 }
 body {
   background-color: #839D9A;
@@ -97,7 +95,7 @@ div.animation {
 button#play-button {
   position: static;
   border-radius: 6px;
-  width: 50px;
+  width: 67px;
 }
 text.textDate {
   color: white;
