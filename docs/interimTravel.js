@@ -6,9 +6,6 @@ let myProjection = d3
     .geoEqualEarth()
     .translate([width/2.12, width/3.7])
     .scale(width/5.2)
-    // console.log(width/2.12)
-    // console.log(width/3.7)
-    // console.log(width/5.2)
 
 let mapData
 let tripsData
@@ -115,7 +112,6 @@ function drawTravel(data){
                 .enter()
                 .append('circle')
                 .attr('class', 'travel')
-                //.attr('id', (d, i) => tripsData[i].country)
                 .attr('cx', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i][tripsData.columns[1]].split(",")[0]])[0])
                 .attr('cy', (d, i) => myProjection([tripsData[i].dec27.split(",")[1], tripsData[i].dec27.split(",")[0]])[1])
                 .attr('r', 3)
@@ -144,7 +140,6 @@ function drawTravel(data){
 
 function onZoom() {
     d3.select('#main').attr('transform', d3.event.transform)
-    //d3.selectAll('svg#canvas path').attr('transform', d3.event.transform)
     d3.selectAll('svg#canvas circle').attr('transform', d3.event.transform)
     d3.selectAll('svg#canvas .travel').attr('transform', d3.event.transform)
 }
