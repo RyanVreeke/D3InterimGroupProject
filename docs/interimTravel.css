@@ -13,12 +13,13 @@
   position: static;
   border: 2px solid black;
   border-top-right-radius: 8px;
-  border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   width: 450px;
   height: 97px;
   padding-left: 3px;
   background-color: white;
+  border-left-style: solid;
+  border-left-color: black;
 }
 body {
   background-color: #839D9A;
@@ -31,14 +32,18 @@ div.map {
   border-color: black;
 }
 div.menu {
-  height: 663px;
+  height: 762px;
   width: 120px;
-  position: fixed;
+  float: left;
   padding-top: 0px;
   padding-left: 5px;
   background-color: #bf6b2d;
   border-top-left-radius: 10px;
   opacity: .8;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  border-right-style: solid;
+  border-right-color: black;
 }
 div.menu h3 {
   margin-bottom: 0px;
@@ -77,8 +82,18 @@ div.content {
   margin-left: 125px;
   width: 1136px;
 }
-#play-button {
+div.animation {
+  width: 1123px;
+  height: 20px;
+  padding: 5px;
+  opacity: .8;
+  background-color: #bf6b2d;
+  border-left-style: solid;
+  border-left-color: black;
+}
+button#play-button {
   position: static;
+  border-radius: 6px;
 }
 text.textDate {
   color: white;
@@ -89,8 +104,9 @@ ul.tripList {
 }
 div.footer {
   background-color: #bf6b2d;
+  display: inline-block;
   height: 50px;
-  width: 1256px;
+  width: 1243px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   opacity: .8;
