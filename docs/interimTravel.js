@@ -154,22 +154,16 @@ function onCircleHover(d) {
     d3.select('#canvas')
         .data(tripsData)
         let mouseLoc = d3.mouse(this)
-        let info = 'Destination is: ' +
-        d.country +
-        '. ' +
-        '<br />Destinatin cordinates are: (' +
-        d.dest.split(",")[0] +
-        ', ' +
-        d.dest.split(",")[1] +
-        ').'
-
+        let info = 'Destination: ' +
+        d.country
+    
     // .html instead of .text() allows us to supply html markup here
     d3.selectAll('.tooltip')
         .html(info)
         .style('visibility', 'visible')
         // left and top only affect .tooltip b/c position = absolute -- see css
-        .style('left', mouseLoc[0] + 'px')
-        .style('top', mouseLoc[1] + 'px')
+        .style('right', mouseLoc[0] - 'px')
+        .style('botttom', mouseLoc[1] - 'px')
 
     //console.log(mouseLoc)
     // console.log(mouseLoc[0])
