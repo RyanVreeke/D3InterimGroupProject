@@ -21,6 +21,7 @@
   border-left-style: solid;
   border-left-color: black;
   background: linear-gradient(90deg, rgba(255,255,255,1) 8%, rgba(191,107,45,1) 100%);
+  opacity: .9;
 }
 body {
   background-color: #839D9A;
@@ -58,9 +59,6 @@ div.menu p {
   display: block;
   padding: 5px;
   border-radius: 10px;
-}
-.menu li:hover {
-  background-color: #837b79;
 }
 div.header {
   height: 60px;
@@ -107,7 +105,7 @@ ul.tripList {
 div.footer {
   background-color: #bf6b2d;
   display: inline-block;
-  height: 50px;
+  height: 100px;
   width: 1260px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;

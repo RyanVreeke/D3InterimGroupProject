@@ -36,7 +36,7 @@ function drawMap(data) {
         .attr('width', width)
         .attr('height', height)
         .style('display', 'block')
-        .style('background-color', '#5f92d9')
+        .style('background', 'linear-gradient(90deg, rgba(0,191,230,1) 0%, rgba(1,110,250,1) 67%, rgba(0,191,230,1) 100%)')
 
         .call(zoom)
         const g = sel.append("g")
@@ -188,8 +188,8 @@ function onCircleClick(d) {
             .attr('id', 'infoText')
             .html(info)
     }
-
-    onListHover(d.country.split(' ').join(''))
+    //Draws the arc green
+    onListHover(d.country.split(' ').join(''))  
 }
 
 function offCircleHover(d) {
@@ -203,6 +203,10 @@ function offCircleHover(d) {
 }
 
 function onListHover(trip) {
+    //Resetting all to default
+    d3.selectAll('li.tripListElement')
+        .style('background-color','#bf6b2d')
+
     d3.selectAll('#canvas circle.destination')
         .attr('r', 4)
         .style('fill', 'orange')
@@ -213,6 +217,10 @@ function onListHover(trip) {
         .attr('r', 8)
         .style('fill', '#00cf4c')
         .style('stroke-width', 3)
+
+    //Setting specific to selected
+    d3.selectAll('li#' + trip)
+        .style('background-color','#837b79')
 
     d3.selectAll('g#main path.flight')
         .style('stroke','#ff7722')
