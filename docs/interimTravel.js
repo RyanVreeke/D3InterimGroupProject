@@ -101,7 +101,10 @@ function drawTrips(data) {
 function drawTravel(data){
     d3.select('button#play-button')
         .on('click',function() {
-            g = d3.select('svg#canvas')
+            d3.select('svg#canvas')
+                .selectAll('circle.travel')
+                .remove()
+            sel = d3.select('svg#canvas')
                 .selectAll('circle.travel')
                 .data(tripsData)
                 .enter()
@@ -117,7 +120,7 @@ function drawTravel(data){
             let t = d3.select('.textDate')
         
             for(let date = 1; date < 35; date++){
-                g = g.transition()
+                sel = sel.transition()
                     .duration(1000)
                     .attr('cx', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[0])
                     .attr('cy', (d, i) => myProjection([tripsData[i][tripsData.columns[date]].split(",")[1], tripsData[i][tripsData.columns[date]].split(",")[0]])[1])
@@ -130,8 +133,6 @@ function drawTravel(data){
                     .transition()
                     .duration(1000)
                     .text(function(d) {return 'Date of travel being viewed: ' + month[0].toUpperCase() + month[1] + month[2] + ' ' + matches[0]})
-
-
             }
         })
 }
@@ -182,7 +183,7 @@ function onCircleClick(d) {
         d.dest.split(",")[0] +
         ', ' +
         d.dest.split(",")[1] +
-        ').'
+        ').<br />hisdfsdfsdfsd<br />sjdfhsdkjfsdfsdf'
     if (!clicked) {
         clicked = true;
 
@@ -190,8 +191,6 @@ function onCircleClick(d) {
         d3.selectAll('.travelInfo')
             .append('text')
             .attr('id', 'infoText')
-            .attr('x', 0)
-            .attr('y', 0)
             .html(info)
         }
 }
