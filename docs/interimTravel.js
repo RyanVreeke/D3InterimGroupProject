@@ -99,8 +99,12 @@ function drawTrips(data) {
 }
 
 function drawTravel(data){
+    let moving = false
     d3.select('button#play-button')
         .on('click',function() {
+            moving = true
+            let self = d3.select(this)
+            self.text(moving ? 'Replay' : 'Play')
             d3.select('svg#canvas')
                 .selectAll('circle.travel')
                 .remove()
