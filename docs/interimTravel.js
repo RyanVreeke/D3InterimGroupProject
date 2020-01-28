@@ -176,14 +176,19 @@ let clicked = false;
 function onCircleClick(d) {
     d3.select('#canvas')
         .data(tripsData)
-        let info = 'Destination is: ' +
+        let info = 'Destination: ' +
         d.country +
         '. ' +
-        '<br />Destinatin cordinates are: (' +
-        d.dest.split(",")[0] +
-        ', ' +
-        d.dest.split(",")[1] +
-        ').<br />hisdfsdfsdfsd<br />sjdfhsdkjfsdfsdf'
+        '<br />Professor(s): ' + 
+        d.prof.split(',') +
+        '. ' +
+        '<br />Leave Date: ' +
+        d.leaveDate +
+        '. ' +
+        '<br />Return Date: ' +
+        d.returnDate +
+        '. '
+        
     if (!clicked) {
         clicked = true;
 
