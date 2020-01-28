@@ -1,4 +1,5 @@
-let width = d3.select(".map").node().getBoundingClientRect().width
+//let width = d3.select(".map").node().getBoundingClientRect().width
+let width = 1130;
 let height = width/2
 let transitionTime = 0000
 let myProjection = d3

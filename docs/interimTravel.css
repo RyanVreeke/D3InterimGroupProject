@@ -35,7 +35,7 @@ div.map {
   border-color: black;
 }
 div.menu {
-  height: 762px;
+  height: 759px;
   width: 120px;
   float: left;
   padding-top: 0px;
@@ -97,6 +97,7 @@ div.animation {
 button#play-button {
   position: static;
   border-radius: 6px;
+  width: 50px;
 }
 text.textDate {
   color: white;
@@ -109,7 +110,7 @@ div.footer {
   background-color: #bf6b2d;
   display: inline-block;
   height: 50px;
-  width: 1243px;
+  width: 1260px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   opacity: .8;
