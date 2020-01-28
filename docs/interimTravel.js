@@ -184,7 +184,7 @@ function onCircleClick(d) {
         d.country +
         '. ' +
         '<br />Professor(s): ' + 
-        d.prof.split(',') +
+        d.prof +
         '. ' +
         '<br />Leave Date: ' +
         d.leaveDate +
@@ -192,7 +192,7 @@ function onCircleClick(d) {
         '<br />Return Date: ' +
         d.returnDate +
         '. '
-        
+
     if (!clicked) {
         clicked = true;
 
