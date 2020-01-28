@@ -38,7 +38,7 @@ function drawMap(data) {
         .attr('width', width)
         .attr('height', height)
         .style('display', 'block')
-        .style('background-color','skyblue')
+        .style('background-color', '#5f92d9')
 
         .call(zoom)
         const g = sel.append("g")
@@ -69,7 +69,7 @@ function drawTrips(data) {
         .style('stroke','transparent')
         .transition()
         .duration(1000)
-        .style('stroke','darkred')
+        .style('stroke','#ff7722')
         .style('stroke-width','1.4')
         .attr("d", function(d, i) { //Found: https://stackoverflow.com/questions/17156283/d3-js-drawing-arcs-between-two-points-on-map-from-file?rq=1
             let dest = myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]]);
@@ -88,7 +88,7 @@ function drawTrips(data) {
         .attr('cx', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[0])
         .attr('cy', (d, i) => myProjection([tripsData[i].dest.split(",")[1], tripsData[i].dest.split(",")[0]])[1])
         .attr('r', 4)
-        .style('fill', 'red')
+        .style('fill', 'orange')
         .style('stroke', 'black')
 
     sel.selectAll('circle')
@@ -164,10 +164,6 @@ function onCircleHover(d) {
         // left and top only affect .tooltip b/c position = absolute -- see css
         .style('right', mouseLoc[0] - 'px')
         .style('botttom', mouseLoc[1] - 'px')
-
-    //console.log(mouseLoc)
-    // console.log(mouseLoc[0])
-    // console.log(mouseLoc[1])
 }
 
 let clicked = false;
@@ -195,7 +191,9 @@ function onCircleClick(d) {
             .append('text')
             .attr('id', 'infoText')
             .html(info)
-        }
+    }
+
+    onListHover(d.country.split(' ').join(''))
 }
 
 function offCircleHover(d) {
@@ -211,23 +209,36 @@ function offCircleHover(d) {
 function onListHover(trip) {
     d3.selectAll('#canvas circle.destination')
         .attr('r', 4)
-        .style('fill', 'red')
+        .style('fill', 'orange')
+        .style('stroke-width', 1)
     
     d3.select('svg#canvas')
         .selectAll('circle#' + trip)
         .attr('r', 8)
-        .style('fill', 'blue')
+        .style('fill', '#00cf4c')
+        .style('stroke-width', 3)
 
     d3.selectAll('g#main path.flight')
-        .style('stroke','darkred')
+        .style('stroke','#ff7722')
         .style('stroke-width','1.4')
 
     d3.select('g#main')
         .selectAll('path#' + trip)
-        .style('stroke', 'blue')
-        .style('stroke-width', '3')
+        .style('stroke', '#00cf4c')
+        .style('stroke-width', '5')
+
+    d3.selectAll('circle#' + trip)
+        .dispatch('mouseover')
 }
 
 function onListClick(trip) {
-    console.log('hi')
+    d3.selectAll('#infoText')
+        .remove()
+        clicked = false;
+    d3.selectAll('circle#' + trip)
+        .dispatch('click')
+}
+
+function offListHover() {
+
 }
